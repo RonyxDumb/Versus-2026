@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Sorgenti VERSUS 2026</title>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <style>
+        body { 
+            margin: 0; padding: 0; 
+            background-color: #0d1117; 
+            color: #c9d1d9; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            display: flex; flex-direction: column;
+            height: 100vh; width: 100vw;
+            overflow: hidden;
+        }
+        header {
+            padding: 16px 20px;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            flex-shrink: 0;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 6px;
+        }
+        .stats-bar {
+            font-size: 13px;
+            color: #8b949e;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap; /* Fondamentale per mobile */
+            margin-bottom: 8px;
+        }
+        .stats-bar b { color: #58a6ff; }
+        
+        .legend {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            color: #8b949e;
+            flex-wrap: wrap;
+        }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .box { width: 12px; height: 12px; border-radius: 2px; }
+        .box.source { background-color: #238636; }
+        .box.empty { background-color: #30363d; }
+
+        #chart { 
+            flex-grow: 1; 
+            width: 100%;
+            min-height: 0; /* Previene overflow */
+        }
+
+        /* Correzioni per schermi molto piccoli */
+        @media (max-width: 480px) {
+            header { padding: 12px; }
+            .title { font-size: 16px; }
+            .stats-bar { gap: 8px; font-size: 11px; }
+            .legend { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title">VERSUS 2026 source code progress</div>
+        <div class="stats-bar">
+            <span>Functions: <b>116</b></span>
+            <span>Files: <b>23</b></span>
+            <span>Modules: <b>9</b></span>
+            <span>Lines: <b>2829</b></span>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><div class="box source"></div> Haxe matched</div>
+            <div class="legend-item"><div class="box empty"></div> unmatched</div>
+            <span>(Rect size by LOC)</span>
+        </div>
+    </header>
+
+    <div id="chart"></div>
+
+    <script>
+        var rawLabels = ["VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/audio","VERSUS_2026_SOURCE/audio/MusTable","VERSUS_2026_SOURCE/audio/MusTable::init()","VERSUS_2026_SOURCE/audio/SoundTable","VERSUS_2026_SOURCE/audio/SoundTable::init()","VERSUS_2026_SOURCE/boot","VERSUS_2026_SOURCE/boot/Boot","VERSUS_2026_SOURCE/boot/Boot::create()","VERSUS_2026_SOURCE/boot/Boot::getRoundedBitmap()","VERSUS_2026_SOURCE/boot/Boot::update()","VERSUS_2026_SOURCE/boot/Boot::changeSelection()","VERSUS_2026_SOURCE/boot/Boot::updateSelectionVisuals()","VERSUS_2026_SOURCE/boot/Boot::selectCurrentOption()","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2::create()","VERSUS_2026_SOURCE/boot/CharacterSelectState2::getRoundedBitmap()","VERSUS_2026_SOURCE/boot/CharacterSelectState2::update()","VERSUS_2026_SOURCE/boot/CharacterSelectState2::changeSelection()","VERSUS_2026_SOURCE/boot/CharacterSelectState2::updateListScrolling()","VERSUS_2026_SOURCE/boot/CharacterSelectState2::setPlayerReady()","VERSUS_2026_SOURCE/boot/CharacterSelectState2::startMatch()","VERSUS_2026_SOURCE/boot/CharacterSelectState2::setupAndroidControls()","VERSUS_2026_SOURCE/camera","VERSUS_2026_SOURCE/camera/CameraFX","VERSUS_2026_SOURCE/camera/CameraFX::play()","VERSUS_2026_SOURCE/gameplay","VERSUS_2026_SOURCE/gameplay/PlayState","VERSUS_2026_SOURCE/gameplay/PlayState::create()","VERSUS_2026_SOURCE/gameplay/PlayState::update()","VERSUS_2026_SOURCE/gameplay/PlayState::handlePlayerCollision()","VERSUS_2026_SOURCE/gameplay/PlayState::updateCamera()","VERSUS_2026_SOURCE/gameplay/PlayState::destroy()","VERSUS_2026_SOURCE/InitState","VERSUS_2026_SOURCE/InitState::create()","VERSUS_2026_SOURCE/InitState::configuraFlixel()","VERSUS_2026_SOURCE/InitState::inizializzaServizi()","VERSUS_2026_SOURCE/InitState::avviaPreload()","VERSUS_2026_SOURCE/InitState::avviaGioco()","VERSUS_2026_SOURCE/InitState::verificaFileCritici()","VERSUS_2026_SOURCE/input","VERSUS_2026_SOURCE/input/Controls","VERSUS_2026_SOURCE/input/Controls::update()","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls::new()","VERSUS_2026_SOURCE/input/PlayerControls::get_gamepad()","VERSUS_2026_SOURCE/input/PlayerControls::get_left()","VERSUS_2026_SOURCE/input/PlayerControls::get_right()","VERSUS_2026_SOURCE/input/PlayerControls::get_up()","VERSUS_2026_SOURCE/input/PlayerControls::get_down()","VERSUS_2026_SOURCE/input/PlayerControls::get_leftPressed()","VERSUS_2026_SOURCE/input/PlayerControls::get_rightPressed()","VERSUS_2026_SOURCE/input/PlayerControls::get_upPressed()","VERSUS_2026_SOURCE/input/PlayerControls::get_downPressed()","VERSUS_2026_SOURCE/input/PlayerControls::get_confirmPressed()","VERSUS_2026_SOURCE/input/PlayerControls::get_cancelPressed()","VERSUS_2026_SOURCE/input/PlayerControls::get_anyHorizontalPressed()","VERSUS_2026_SOURCE/input/PlayerControls::get_anyVerticalPressed()","VERSUS_2026_SOURCE/input/PlayerControls::update()","VERSUS_2026_SOURCE/Main","VERSUS_2026_SOURCE/Main::main()","VERSUS_2026_SOURCE/Main::new()","VERSUS_2026_SOURCE/Main::init()","VERSUS_2026_SOURCE/Main::setupGame()","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths::setCurrentLevel()","VERSUS_2026_SOURCE/Paths::stripLibrary()","VERSUS_2026_SOURCE/Paths::getLibrary()","VERSUS_2026_SOURCE/Paths::getPath()","VERSUS_2026_SOURCE/Paths::getLibraryPath()","VERSUS_2026_SOURCE/Paths::getLibraryPathForce()","VERSUS_2026_SOURCE/Paths::getPreloadPath()","VERSUS_2026_SOURCE/Paths::file()","VERSUS_2026_SOURCE/Paths::animateAtlas()","VERSUS_2026_SOURCE/Paths::txt()","VERSUS_2026_SOURCE/Paths::frag()","VERSUS_2026_SOURCE/Paths::vert()","VERSUS_2026_SOURCE/Paths::xml()","VERSUS_2026_SOURCE/Paths::json()","VERSUS_2026_SOURCE/Paths::audioTable()","VERSUS_2026_SOURCE/Paths::soundRandom()","VERSUS_2026_SOURCE/Paths::musTable()","VERSUS_2026_SOURCE/Paths::textures()","VERSUS_2026_SOURCE/Paths::font()","VERSUS_2026_SOURCE/Paths::ui()","VERSUS_2026_SOURCE/Paths::getSparrowAtlas()","VERSUS_2026_SOURCE/Paths::getPackerAtlas()","VERSUS_2026_SOURCE/player","VERSUS_2026_SOURCE/player/CharacterData","VERSUS_2026_SOURCE/player/CharacterData::new()","VERSUS_2026_SOURCE/player/CharacterDatabase","VERSUS_2026_SOURCE/player/CharacterSelection","VERSUS_2026_SOURCE/player/Player","VERSUS_2026_SOURCE/player/Player::new()","VERSUS_2026_SOURCE/player/Player::update()","VERSUS_2026_SOURCE/player/Player::handleInput()","VERSUS_2026_SOURCE/player/Player::handleMovement()","VERSUS_2026_SOURCE/player/Player::handleWalkEffect()","VERSUS_2026_SOURCE/player/Player::updateFacing()","VERSUS_2026_SOURCE/player/Player1","VERSUS_2026_SOURCE/player/Player1::new()","VERSUS_2026_SOURCE/player/Player2","VERSUS_2026_SOURCE/player/Player2::new()","VERSUS_2026_SOURCE/plugins","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::get_instance()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::new()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::update()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::initialize()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::hasPressedScreenshot()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::capture()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::showFancyPreview()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::makeScreenshotPath()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::encode()","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin::saveScreenshot()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::new()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::initialize()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::moveCameraToTop()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::update()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::findPointerByTouchId()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::touchExists()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::set_enabled()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::removeAll()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::new()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::initialize()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::updateFromTouch()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::destroy()","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin::loadGraphic()","VERSUS_2026_SOURCE/transition","VERSUS_2026_SOURCE/transition/DiamondTransShader","VERSUS_2026_SOURCE/transition/DiamondTransShader::new()","VERSUS_2026_SOURCE/transition/DiamondTransSubState","VERSUS_2026_SOURCE/transition/DiamondTransSubState::new()","VERSUS_2026_SOURCE/transition/DiamondTransSubState::create()","VERSUS_2026_SOURCE/transition/DiamondTransSubState::__fade()","VERSUS_2026_SOURCE/transition/DiamondTransSubState::fadeIn()","VERSUS_2026_SOURCE/transition/DiamondTransSubState::fadeOut()","VERSUS_2026_SOURCE/transition/DiamondTransSubState::_closeCallback()","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE/transition/FNFState::new()","VERSUS_2026_SOURCE/transition/FNFState::create()","VERSUS_2026_SOURCE/transition/FNFState::update()","VERSUS_2026_SOURCE/transition/FNFState::startOutro()","VERSUS_2026_SOURCE/transition/FNFState::fadeIn()","VERSUS_2026_SOURCE/transition/FNFState::fadeOut()","VERSUS_2026_SOURCE/transition/FNFState::subStateRecv()","VERSUS_2026_SOURCE/ui","VERSUS_2026_SOURCE/ui/ColorsAesthetic"];
+        var cleanLabels = rawLabels.map(function(l) {
+            if (l === "VERSUS_2026_SOURCE") return "source/";
+            if (l.indexOf("::") !== -1) return l.split("::")[1];
+            var p = l.split("/"); return p[p.length - 1];
+        });
+
+        var data = [{
+            type: "treemap",
+            ids: rawLabels,
+            labels: cleanLabels,
+            parents: ["","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/audio","VERSUS_2026_SOURCE/audio/MusTable","VERSUS_2026_SOURCE/audio","VERSUS_2026_SOURCE/audio/SoundTable","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/boot","VERSUS_2026_SOURCE/boot/Boot","VERSUS_2026_SOURCE/boot/Boot","VERSUS_2026_SOURCE/boot/Boot","VERSUS_2026_SOURCE/boot/Boot","VERSUS_2026_SOURCE/boot/Boot","VERSUS_2026_SOURCE/boot/Boot","VERSUS_2026_SOURCE/boot","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE/boot/CharacterSelectState2","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/camera","VERSUS_2026_SOURCE/camera/CameraFX","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/gameplay","VERSUS_2026_SOURCE/gameplay/PlayState","VERSUS_2026_SOURCE/gameplay/PlayState","VERSUS_2026_SOURCE/gameplay/PlayState","VERSUS_2026_SOURCE/gameplay/PlayState","VERSUS_2026_SOURCE/gameplay/PlayState","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/InitState","VERSUS_2026_SOURCE/InitState","VERSUS_2026_SOURCE/InitState","VERSUS_2026_SOURCE/InitState","VERSUS_2026_SOURCE/InitState","VERSUS_2026_SOURCE/InitState","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/input","VERSUS_2026_SOURCE/input/Controls","VERSUS_2026_SOURCE/input","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE/input/PlayerControls","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/Main","VERSUS_2026_SOURCE/Main","VERSUS_2026_SOURCE/Main","VERSUS_2026_SOURCE/Main","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE/Paths","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/player","VERSUS_2026_SOURCE/player/CharacterData","VERSUS_2026_SOURCE/player","VERSUS_2026_SOURCE/player","VERSUS_2026_SOURCE/player","VERSUS_2026_SOURCE/player/Player","VERSUS_2026_SOURCE/player/Player","VERSUS_2026_SOURCE/player/Player","VERSUS_2026_SOURCE/player/Player","VERSUS_2026_SOURCE/player/Player","VERSUS_2026_SOURCE/player/Player","VERSUS_2026_SOURCE/player","VERSUS_2026_SOURCE/player/Player1","VERSUS_2026_SOURCE/player","VERSUS_2026_SOURCE/player/Player2","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/plugins","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins/ScreenshotPlugin","VERSUS_2026_SOURCE/plugins","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE/plugins/TouchPointerPlugin","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/transition","VERSUS_2026_SOURCE/transition/DiamondTransShader","VERSUS_2026_SOURCE/transition","VERSUS_2026_SOURCE/transition/DiamondTransSubState","VERSUS_2026_SOURCE/transition/DiamondTransSubState","VERSUS_2026_SOURCE/transition/DiamondTransSubState","VERSUS_2026_SOURCE/transition/DiamondTransSubState","VERSUS_2026_SOURCE/transition/DiamondTransSubState","VERSUS_2026_SOURCE/transition/DiamondTransSubState","VERSUS_2026_SOURCE/transition","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE/transition/FNFState","VERSUS_2026_SOURCE","VERSUS_2026_SOURCE/ui"],
+            values: [0,0,0,22,0,6,0,0,26,14,25,8,21,14,0,67,15,10,7,17,9,8,22,0,0,14,0,0,51,43,16,27,8,0,17,26,4,5,6,7,0,0,5,0,19,4,5,5,5,5,5,5,5,5,5,5,4,4,39,0,4,8,6,48,0,4,6,6,9,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,5,0,0,0,23,9,15,32,12,7,0,12,0,12,0,0,6,20,8,4,4,11,17,6,4,10,0,4,11,9,18,8,8,6,12,8,5,12,6,7,0,0,8,0,8,29,13,4,4,5,0,4,9,4,7,4,5,7,0,0],
+            branchvalues: "remainder",
+            textinfo: "label",
+            marker: { 
+                colorscale: [
+                    [0, "#161b22"],
+                    [0.2, "#0e4429"],
+                    [0.6, "#26a641"],
+                    [1, "#39d353"]
+                ],
+                line: { width: 1, color: "#0d1117" }
+            },
+            hoverlabel: { bgcolor: "#1c2128", font: {color: "#adbac7"} },
+            hovertemplate: "<b>%{id}</b><br>Lines: %{value}<extra></extra>"
+        }];
+
+        var layout = {
+            paper_bgcolor: "#0d1117",
+            plot_bgcolor: "#0d1117",
+            margin: { t: 5, l: 5, r: 5, b: 5 },
+            font: { color: "#c9d1d9" }
+        };
+
+        Plotly.newPlot("chart", data, layout, {
+            responsive: true, 
+            displayModeBar: false,
+            doubleClick: "reset"
+        });
+    </script>
+</body>
+</html>

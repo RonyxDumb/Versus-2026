@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+<!-- project -->
+
+    <!--
+    ==========================================
+    ESPORTAZIONE ANDROID
+    NDK = 21.4.7075529
+    SDK = va bene
+    JAVA = 17
+
+    Necessità di utilizzare HXCPP DEVELOPMENT 
+    haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git
+    haxelib set hxcpp git
+    haxelib set hxcpp 4.3.2 <- se rivuoi la versione stabile
+    ==========================================
+    VERSIONING SCHEDULE
+
+    0.0.0
+    MAJOR.MINOR.PATCH
+
+    (esempio)
+    0.1.0 → prima demo giocabile
+    0.2.0 → aggiunta menu completo + animazioni Galaxy
+    0.2.1 → fix bug menu
+    1.0.0 → prima release “vera”
+    -->
+
+    <!-- ====== METADATI APPLICAZIONE ====== -->
+    <meta 
+        title="Versus 2026"
+        packageName="com.francepp.V2026"
+        package="com.francepp.V2026"
+        version="0.1.0"
+        company="Francesco Pio Pipino"
+        buildDate="${date:yyyy-MM-dd}" />
+
+    <!-- ====== IMPOSTAZIONI APPLICAZIONE ====== -->
+    <app 
+        file="product"
+        main="Main"
+        path="${BUILD_DIR}"
+        preloader="flixel.system.FlxPreloader" />
+
+    <!-- ====== DIRECTORY DI BUILD ====== -->
+    <set name="BUILD_DIR" value="build/debug" if="debug"/>
+    <set name="BUILD_DIR" value="build/release" unless="debug"/>
+
+    <!-- ====== FINESTRA ====== -->
+    <window 
+        width="1280"
+        height="720"
+        orientation="landscape"
+        background="#000000"
+        hardware="true"
+        vsync="true"
+        resizable="true"
+        maintain-aspect-ratio="true" unless="android" />
+
+    <window 
+        width="0"
+        height="0"
+        orientation="landscape"
+        fullscreen="true"
+        background="#000000"
+        hardware="true"
+        vsync="true"
+        resizable="true"
+        maintain-aspect-ratio="false" if="android" />
+
+    <!-- ====== ICONA ====== -->
+    <!-- Desktop -->
+    <icon path="art/iconGame/ICON_ANDROID_NOBG.png" unless="android"/>
+    <!-- template manifest -->
+    <template path="templates/android/template/app/src/main/AndroidManifest.xml"
+            rename="app/src/main/AndroidManifest.xml" if="android"/>
+
+    <!-- template risorse adaptive icon -->
+    <template path="templates" if="android"/>
+
+    <!-- Android utilizza TEMPLATE dedicato -->
+    <template path="templates" if="android" />
+    <application icon="@mipmap/ic_launcher" if ="android"/>
+
+    <!-- ====== CONFIGURAZIONE ANDROID ====== -->
+    <section if="android">
+        <android
+            gradle-version="8.9"
+            gradle-plugin="8.7.3"
+            target-sdk-version="35" />
+    </section>
+
+    <!-- ====== PERCORSI E ASSET ====== -->
+    <classpath path="source"/>
+
+    <assets path="assets"/>
+    <assets path="assets" exclude="*.ogg|*.wav" if="html5"/>
+    <assets path="assets" exclude="*.mp3|*.wav" unless="html5"/>
+
+    <!-- ====== LIBRERIE ====== -->
+    <haxelib name="flixel"/>
+    <haxelib name="flixel-addons"/>
+    <haxelib name="flixel-ui"/>
+    <haxelib name="openfl"/>
+
+    <!-- ====== DEFINE ====== -->
+    <haxedef name="HXC_LIBVLC_LOGGING" if="debug"/>
+    <haxedef name="message.reporting" value="pretty" />
+
+    <set name="GAME_CODENAME" value="V2026"/>
+    <set name="BUILD_DATE" value="${date:yyyy-MM-dd}"/>
+    <set name="BUILD_TIME" value="${date:HH:mm:ss}"/>
+    <set name="TARGET_PLATFORM" value="${target}"/>
+
+    <haxedef name="WRITE_BUILD_FILE"/>
+
+    <haxedef name="FLX_NO_DEBUG" unless="debug"/>
+    <haxedef name="NAPE_RELEASE_BUILD" unless="debug"/>
+    <haxedef name="FLX_NO_FOCUS_LOST_SCREEN" unless="debug"/>
+
+    <haxedef name="HXCPP_VISIT_ALLOCS" if="debug"/>
+
+    <section if="cpp || debug">
+        <haxedef name="HXCPP_CHECK_POINTER"/>
+        <haxedef name="HXCPP_STACK_LINE"/>
+        <haxedef name="HXCPP_STACK_TRACE"/>
+    </section>
+
+    <undefine name="openfl-disable-handle-error" if="debug"/>
+
+    <!-- ====== iOS ====== -->
+    <section if="ios">
+        <dependency name="Metal.framework" if="${lime &lt; 8.0.0}" />
+    </section>
+
+    <haxe name="--macro" value="allowPackage('sys')" />
+    <haxeflag name="-D" value="dump=${BUILD_DIR}/dump_folder" />
+</project>
