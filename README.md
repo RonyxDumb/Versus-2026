@@ -1,4 +1,4 @@
-### Versus 2026
+# Versus 2026
 Ricreazione della modalità "_Mario VS Luigi_" proveniente dal gioco "_New Super Mario Bros. DS_" nel linguaggio Haxe.
 
 ### Aggiunte e differenze
