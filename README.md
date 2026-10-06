@@ -1,5 +1,5 @@
 # Versus 2026
-Ricreazione della modalità "_Mario VS Luigi_" proveniente dal gioco "_New Super Mario Bros. DS_" nel linguaggio Haxe.
+Ricreazione della modalità "_***Mario VS Luigi***_" proveniente dal gioco "_***New Super Mario Bros. DS***_" nel linguaggio Haxe.
 
 ### Aggiunte e differenze
 - Implementato un sistema di lettura del controller.
